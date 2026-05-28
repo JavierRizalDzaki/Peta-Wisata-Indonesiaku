@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peta Wisata Indonesiaku</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+        
+        .info-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.9);
+            padding: 10px 15px;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            font-size: 12px;
+            pointer-events: none;
+            border: 5px solid #00060c;
+        }
+
+        .custom-control {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="info-panel">
+        <strong>🌴 Selamat Datang di Peta Wisata Nusantara</strong><br>
+        Geser dan zoom untuk menjelajahi peta
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. INISIALISASI PETA (KOORDINAT & ZOOM)
+        // ==========================================
+        var map = L.map('map').setView([-6.9146, 107.6098], 13);
+        // KOORDINAT: Gedung Sate, Bandung
+        // ZOOM: 13 (0 = dunia, 18 = sangat dekat)
+        
+        // ==========================================
+        // ==========================================
+// 2. TAMBAHKAN BASEMAP (PETA DASAR)
+// ==========================================
+
+// Google Roadmap
+var googleRoadmap = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    subdomains: ['mt0','mt1','mt2','mt3'],
+    attribution: '&copy; <a href="https://maps.google.com">Google Maps</a>'
+});
+
+// Google Satellite
+var googleSatellite = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    subdomains: ['mt0','mt1','mt2','mt3'],
+    attribution: '&copy; <a href="https://maps.google.com">Google Maps</a>'
+});
+
+// Tambahkan salah satu sebagai default
+googleRoadmap.addTo(map);
+
+        
+        // ==========================================
+        // 3. TAMBAHKAN SCALE BAR (SKALA PETA)
+        // ==========================================
+        L.control.scale({
+            metric: true,
+            imperial: false,
+            position: 'bottomright'
+        }).addTo(map);
+        
+        // ==========================================
+        // 4. TAMBAHKAN MARKER CONTOH
+        // ==========================================
+        var marker = L.marker([-6.9146, 107.6098]).addTo(map);
+        marker.bindPopup('<b>Gedung Sate</b><br>Bandung, Jawa Barat');
+        var marker2 = L.marker([-6.9212968489152855, 107.60766978251807]).addTo(map);
+        marker2.bindPopup('<b>Tugu Asia Afrika</b><br>Tugu ini adalah salah satu tempat bersejarah di Kota Bandung')
+        var marker3= L.marker([-6.957657045576022, 107.7118656450885]).addTo(map);
+        marker3.bindPopup('<b>Stadion Gelora Bandung Lautan Api</b><br>Stadion ini merupakan kandang bermain tim Persib Bandung')
+        var marker4= L.marker([-6.8328825208465185, 107.60552727187121]).addTo(map);
+        marker4.bindPopup('<b>Frame House Susu Lembang</b><br>Taman hiburan dengan bangunan bergaya Eropa dan kebun binatang mini')
+        
+        
+        // ==========================================
+        // ==========================================
+// 5. TAMBAHKAN LAYER CONTROL
+// ==========================================
+var baseMaps = {
+    "Google Roadmap": googleRoadmap,
+    "Google Satellite": googleSatellite
+};
+
+var overlayMaps = {
+    "Marker": marker
+};
+
+L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+        
+        console.log('Peta berhasil dimuat!');
+    </script>
+</body>
+</html>
